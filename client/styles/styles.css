@@ -92,3 +92,8 @@ ul.users {
 .bold {
   font-weight: bold;
 }
+
+.msgInput {
+  width: 400px;
+  size: 80;
+}

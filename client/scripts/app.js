@@ -1,6 +1,7 @@
 // YOUR CODE HERE:
 var useURL = 'https://api.parse.com/1/classes/chatterbox';
 
+var chatUser = window.location.search.split('=')[1];
 var _msgResults;
 var lastMsgTime = 0;
 var filter = 'lobby';
@@ -10,7 +11,7 @@ var scrollPosition;
 
 var sendChat = function() {
   var msg = {
-    "username": 'Shu',
+    "username": chatUser,
     "text": $('.msgInput').val(),
     'roomname': filter
   };
@@ -21,6 +22,7 @@ var sendChat = function() {
     data : stringified,
     contentType : 'application/json',
     success : function() {
+      scrollPosition = undefined;
       retrieve();
     }
   });
