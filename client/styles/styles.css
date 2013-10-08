@@ -4,6 +4,27 @@ body {
     padding: 0 25px;
 }
 
+.container {
+  margin: 25px auto;
+  text-align: left;
+  width: 622px;
+  height: 500px;
+}
+
+.left {
+    width: auto;
+    height: 500px;
+    float: left;
+}
+
+.right {
+    width: 200px;
+    height: 500px;
+    float: right;
+    border: 1px solid black;
+    overflow: scroll;
+}
+
 #main {
     width: 500px;
     margin: auto;
@@ -40,9 +61,10 @@ body {
 }
 
 ul {
-  text-align: left;
-  width: 600px;
-  margin: 25px auto 25px auto;
+  margin: 0 auto;
   list-style: none;
   padding: 0;
+  overflow: scroll;
+  height: 500px;
+  width: 420px;
 }
