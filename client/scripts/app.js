@@ -56,7 +56,6 @@ var buildChatRooms = function() {
     filter = $(this).text();
     displayByRoom( filter );
   });
-  console.log(chatRooms);
   return chatRooms;
 };
 
