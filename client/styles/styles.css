@@ -20,12 +20,11 @@ body {
 }
 
 .right {
-    width: 142px;
+    width: 162px;
     height: 500px;
     float: right;
     background-color: white;
-    overflow: scroll;
-    padding-left: 20px;
+    /*padding-left: 20px;*/
     padding-bottom: 20px;
 }
 
@@ -64,11 +63,32 @@ body {
     line-height: 13px;
 }
 
-ul {
+ul.chatMsgs {
   margin: 0 auto;
   list-style: none;
   padding: 20px;
   overflow: scroll;
   height: 440px;
   width: 400px;
+}
+
+.right > ul {
+  margin: 20px;
+  width: auto;
+  list-style: none;
+  border: 1px solid black;
+  padding: 0;
+  overflow: scroll;
+}
+
+ul.rooms {
+  height: 250px;
+}
+
+ul.users {
+  height: 200px;
+}
+
+.bold {
+  font-weight: bold;
 }
