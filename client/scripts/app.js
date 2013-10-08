@@ -3,7 +3,7 @@ var useURL = 'https://api.parse.com/1/classes/chatterbox';
 
 var _msgResults;
 var lastMsgTime = 0;
-var filter;
+var filter = 'lobby';
 
 var sendChat = function() {
   var msg = {
