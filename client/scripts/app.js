@@ -4,6 +4,9 @@ var useURL = 'https://api.parse.com/1/classes/chatterbox';
 var _msgResults;
 var lastMsgTime = 0;
 var filter = 'lobby';
+var friends = {};
+var scrollPosition;
+
 
 var sendChat = function() {
   var msg = {
@@ -41,20 +44,40 @@ var retrieve = function(room) {
 };
 
 var buildChatRooms = function() {
+  var users = {};
   var chatRooms = {};
   $('.rooms').text('');
+  $('.users').text('');
   for (var i = 0; i < _msgResults.length; i++) {
     var room = _msgResults[i].roomname;
+    var user = _msgResults[i].username;
     if (!chatRooms[room]) {
       chatRooms[room] = 1;
-      $('.rooms').append('<p><a href="#" class="roomLink">' + escapeString(room) + '</a></p>');
+      $('.rooms').append('<li><a href="#" class="roomLink">' + escapeString(room) + '</a></li>');
     } else {
       chatRooms[room]++;
+    }
+
+    if (!users[user]) {
+      users[user] = 1;
+      var friendDisplay = 'none';
+      if(friends[user]) {
+        friendDisplay = 'inline';
+      }
+
+      $('.users').append('<li><a href="#" class="userLink">' + escapeString(user) + '</a><span class="friend" style="display:'+friendDisplay+'">*</span></li>');
     }
   }
   $('a.roomLink').on('click', function(){
     filter = $(this).text();
+    scrollPosition = undefined;
     displayByRoom( filter );
+  });
+  $('a.userLink').on('click', function(){
+    var thisUser = $(this).text();
+    friends[thisUser] = !friends[thisUser];
+    $(this).parent().find('> .friend').toggle();
+    retrieve();
   });
   return chatRooms;
 };
@@ -64,8 +87,20 @@ var displayByRoom = function(target) {
   $('ul.chatMsgs').text('');
   var filtered = _(_msgResults).each(function(msgData){
     if (msgData.roomname === target) {
-      $('.chatMsgs').prepend('<li>' + escapeString(msgData.username, msgData) + ': ' + escapeString(msgData.text, msgData) + '</li>');
+      var node = $('<li>' + escapeString(msgData.username, msgData) + ': ' + escapeString(msgData.text, msgData) + '</li>');
+      if(friends[msgData.username]) {
+        node.addClass('bold');
+      }
+      $('.chatMsgs').prepend(node);
     }
+  });
+  if (scrollPosition === undefined) {
+    scrollPosition = $('ul.chatMsgs')[0].scrollHeight;
+  }
+  $('ul.chatMsgs').scrollTop(scrollPosition);
+  $('ul.chatMsgs').scroll(function() {
+    scrollPosition = $('ul.chatMsgs')[0].scrollTop;
+    // console.log(scrollPosition);
   });
 };
 
@@ -94,7 +129,7 @@ var escapeString = function(string, data) {
 
 $(document).ready(function() {
   retrieve();
-  setInterval(retrieve, 1000);
+  setInterval(retrieve, 2000);
 
   $('.msgInput').on('keypress', function(event) {
     if (event.which === 13 && $('.msgInput').val() !== '') {
