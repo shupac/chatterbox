@@ -38,3 +38,11 @@ body {
     color: green;
     line-height: 13px;
 }
+
+ul {
+  text-align: left;
+  width: 600px;
+  margin: 25px auto 25px auto;
+  list-style: none;
+  padding: 0;
+}
