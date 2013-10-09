@@ -32,8 +32,16 @@ var Room = Backbone.Model.extend({
 
 var RoomView = Backbone.View.extend({
   tagName: 'li',
+  events: {
+    'click a': 'filter'
+  },
   render: function() {
     this.$el.html('<a href="#" class="roomLink">' + this.model.get('roomname')+ '</a>');
+  },
+  filter: function() {
+    var roomname = this.model.get('roomname');
+    // debugger;
+    chatMsgsView.filterByRoom(roomname);
   }
 });
 
@@ -61,9 +69,6 @@ var RoomsView = Backbone.View.extend({
     var roomView = new RoomView ({model: room});
     roomView.render();
     this.$el.append(roomView.el);
-  },
-  events: {
-    
   }
 });
 

@@ -47,6 +47,8 @@ var ChatMessages = Backbone.Collection.extend({
 });
 
 var ChatMsgsView = Backbone.View.extend({
+  tagName: 'ul',
+  className: 'chatMsgs',
   render: function() {
     this.collection.forEach(this.addOne, this);
   },
@@ -54,6 +56,20 @@ var ChatMsgsView = Backbone.View.extend({
     var messageView = new MessageView({ model: messageItem});
     messageView.render();
     this.$el.append(messageView.el);
+  },
+  filterByRoom: function(roomname) {
+    this.$el.html('');
+    for(var i = 0; i < this.collection.length; i++) {
+      // debugger;
+      var msgData = this.collection.at(i);
+      if(msgData.get('roomname') === roomname) {
+        console.log(msgData.get('roomname'), roomname);
+        var msgView = new MessageView({model:msgData});
+        msgView.render();
+        console.log(msgView.el);
+        this.$el.prepend(msgView.el);
+      }
+    }
   }
 });
 
@@ -90,7 +106,7 @@ var retrieve = function(room) {
       roomsCollection.reset(data.results);
       roomsCollection.removeDups();
       roomsView.render();
-      $('.chatMsgs').append(chatMsgsView.el);
+      $('.left').prepend(chatMsgsView.el);
       $('.rooms').append(roomsView.el);
 
     }
